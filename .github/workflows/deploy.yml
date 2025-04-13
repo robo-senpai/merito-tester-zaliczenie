@@ -1,0 +1,37 @@
+name: Deploy Python app to Azure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: bizarre-sentence-generator
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: .
+
+# If your app has a URL (like https://your-app-name.azurewebsites.net), you can add a post-deployment test:
+    - name: Test deployment
+      run: |
+        curl -f https://your-app-name.azurewebsites.net || exit 1
+  
