@@ -33,5 +33,5 @@ jobs:
 # If your app has a URL (like https://your-app-name.azurewebsites.net), you can add a post-deployment test:
     - name: Test deployment
       run: |
-        curl -f https://your-app-name.azurewebsites.net || exit 1
+        curl -f https://bizarre-sentence-generator.azurewebsites.net || exit 1
   
